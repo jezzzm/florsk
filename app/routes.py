@@ -1,11 +1,20 @@
 from app import app
-from flask import render_template
+from flask import render_template, flash, redirect, url_for 
+from app.forms import LoginForm
 
 @app.route('/')
+
+@app.route('/login', methods=['GET', 'POST'])
+def login():
+  form = LoginForm()
+  if form.validate_on_submit():
+    flash(f"Login requested for {form.username.data}, remember me = {form.remember_me.data}")
+    return redirect(url_for('index'))
+  return render_template('login.html', title='Sign In', form=form)
+
 @app.route('/index')
 def index():
   user = {'username': 'Jez'}
-  title= 'Home'
   posts = [
     {
       'author': {'username': 'Jez'},
@@ -16,5 +25,7 @@ def index():
       'body': 'yet another Jez test'
     }
   ]
-  return render_template('index.html', title=title, user=user, posts=posts)
+  return render_template('index.html', title='Home', user=user, posts=posts)
+
+
   
