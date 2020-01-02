@@ -1,0 +1,2 @@
+FLASK_APP=florsk.py
+FLASK_DEBUG=1
